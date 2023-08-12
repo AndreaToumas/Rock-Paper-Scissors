@@ -1,95 +1,32 @@
-console.log ("Hello!")
 
-let options = ["rock", "paper", "scissors"];
 
-//the function of the computer choice//
-
-function getComputerChoice() {
-        let choice = options[Math.floor(Math.random()*options.length)];
-        return choice;
-    }
-
-//to get player choice
-
-function getPlayerChoice() {
-    let validatedInput = false;
-    while(validatedInput == false) {
-        let choice = prompt("Rock Paper Scissors");
-        if(choice == null){
-            continue
-        }
-        let choiceInLower = choice.toLowerCase();
-        if (options.includes(choiceInLower)){
-            validatedInput = true;
-            return choiceInLower;
-        }
-    }
+const handOptions = {
+    "rock": "Pics/Rock.png",
+    "paper": "Pics/Paper.png",
+    "scissors": "Pics/Scissors.png"
 }
 
-//The function of checking who won//
+const pickUserHand = (hand) => {
 
-function checkWinner(playerSelection, computerSelection) {
-    if (playerSelection == computerSelection){
-        return "Tie";
-    }
+    //hide current page
+    let hands = document.querySelector(".hands");
+    hands.style.display = "none";
 
-    else if (
-        (playerSelection == "rock" && computerSelection == "scissors") ||
-        (playerSelection == "scissors" && computerSelection == "paper") ||
-        (playerSelection == "paper" && computerSelection == "rock")){
-        return "Player";
-    }
+    //show the next page with hand u picked
+    let contest = document.querySelector(".contest");
+    contest.style.display = "flex"
 
-    else {
-        return "Computer";
-    }
+    //set the user pick
+    document.getElementById("userPickImage").src = handOptions[hand];
 
-}
+    pickComputerHand(hand);
+};
 
-//the function of what it shows when round is played //
+const pickComputerHand = (hand) => {
+    let hands = ["rock", "paper", "scissors"];
+    let cpHand = hands[Math.floor(Math.random() * hands.length)];
+    
+    // set computer image 
+    document.getElementById("cmpPickImage").src = handOptions[cpHand]
 
-function playRound(playerSelection, computerSelection) {
-    let result = checkWinner(playerSelection, computerSelection)
-    if (result == "Tie"){
-        return "It's a Tie!"
-    }
-
-    else if (result == "Player"){
-        return `Congratulations, you won! ${playerSelection} beats ${computerSelection}`
-    }
-
-    else {
-        return `You Lose! ${computerSelection} beats ${playerSelection}`
-    }
-}
-
-//playing the game to 5 and showing score
-
-function game(){
-    let scorePlayer = 0;
-    let scoreComputer = 0;
-    console.log("Welcome!");
-    for (let i = 0; i < 5; i++) {
-        let playerSelection = getPlayerChoice();
-        let computerSelection = getComputerChoice();
-        console.log(playRound(playerSelection, computerSelection))
-        if (checkWinner(playerSelection, computerSelection) == "Player"){
-            scorePlayer++
-        }
-        else if (checkWinner(playerSelection, computerSelection) == "Computer"){
-            scoreComputer++
-        }
-    }
-    console.log("Game Over")
-    if (scorePlayer > scoreComputer){
-        console.log("Player is the winner!");
-    }
-    else if (scoreComputer > scorePlayer){
-        console.log("Computer is the winner!");
-    }
-    else{
-        console.log("We have a tie!")
-    }
-}
-
-game()
+};
